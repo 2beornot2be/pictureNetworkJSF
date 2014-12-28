@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Category Management</ui:define>
+
+	<ui:define name="content-header">List of picture network categories and management</ui:define>
+	<ui:define name="content">  
+		
+		<h:form id="formcategorys">
+			
+			<!-- search picture so we can manage its comments -->
+			<p:dataTable value="#{gestionCategoryBean.categories}" var="cat" widgetVar="dataCat"
+				paginator="true" rows="5" filteredValue="#{gestionCategoryBean.filteredCategories}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for categories to manage them</h3>
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataCat.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{cat.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<h:outputText value="#{cat.id}" />
+				</p:column>
+				<p:column filterBy="#{cat.name}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Name" />
+					</f:facet>
+					<h:outputText value="#{cat.name}" />
+				</p:column>
+				<p:growl id="growl"></p:growl>
+				<p:column headerText="Actions">
+					<p:commandButton value="Delete" update="@all" onclick="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" oncomplete="PF('statusDialog').hide();"  action="#{gestionCategoryBean.delete}">
+						<f:setPropertyActionListener value="#{cat}" target="#{gestionCategoryBean.category}"></f:setPropertyActionListener>
+						<p:confirm  header="Confirmation" message="Are you sure you want to delete this category?" ></p:confirm>
+						<p:confirmDialog   widgetVar="statusDialog" closable="true" closeOnEscape="true" global="true" height="50" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="No"  styleClass="ui-confirmdialog-No" icon="ui-icon-close" onclick="PF('statusDialog').hide();" update="@all" immediate="true" action="management"   />
+					    </p:confirmDialog>
+					</p:commandButton>
+					
+					<p:commandButton value="Edit" update=":formcategory" >
+						<f:setPropertyActionListener value="#{cat}" target="#{gestionCategoryBean.category}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="true" target="#{gestionCategoryBean.showCategoryForm}"></f:setPropertyActionListener>
+					</p:commandButton>					
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Add a new Category" update=":formcategory" action="#{gestionCategoryBean.initialiserForm}" >
+				<f:setPropertyActionListener value="true" target="#{gestionCategoryBean.showCategoryForm}"></f:setPropertyActionListener>
+			</p:commandButton>	
+		</h:form>
+		<hr/>
+		
+		
+		<h:form id="formcategory">
+			
+			<h:panelGrid columns="3"  rendered="#{gestionCategoryBean.showCategoryForm}" style="margin:auto;border:none !important;">
+				<h:outputLabel for="myCategory" id="lmyCategory">Category : </h:outputLabel>
+				<h:inputText id="myCategory" size="100" value="#{gestionCategoryBean.category.name}" validator="categoryValidator" >
+					<p:ajax event="blur" update="lmyCategory,myCategory,mmyCategory"></p:ajax>
+				</h:inputText>
+				<h:message for="myCategory" id="mmyCategory" style="color:red;font-weight:bold;"></h:message>
+				<p:commandButton update=":formcategorys,:formcategory"   styleClass="btn btn-large btn-primary" value="OK" action="#{gestionCategoryBean.doAddOrUpdate}"></p:commandButton>
+				<p:commandButton update=":formcategorys,:formcategory" immediate="true"  styleClass="btn btn-large btn-primary" value="Cancel" action ="management" >
+					
+				</p:commandButton>
+			</h:panelGrid>
+		</h:form>
+		<hr/>
+	</ui:define>
+</ui:composition>

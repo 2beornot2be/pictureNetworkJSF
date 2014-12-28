@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<aside class="left-side sidebar-offcanvas">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                      <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="#{request.contextPath}/resources/css/img/avatar.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>Hello, Admin
+                           <h:form rendered="{#{authBean.loggedIn}}"></h:form>
+                            </p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online  </a>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- search form -->
+              <!--     <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    
+                -->    
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li class="active">
+                            <a href="#{request.contextPath}/PictureNetwork-jsf/admin/index.jsf">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/PictureNetwork-jsf/login.jsf">
+                                <i class="fa fa-th"></i> <span>Login</span> 
+                            </a>
+                        </li>
+                     <!--   <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Charts</span>
+                            </a>
+                          
+                        </li>
+                      -->
+                       <li>
+                            <a href="#{request.contextPath}/admin/category/management.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/category-logo.png" alt="" style="width:35px; heigth:35px;" /> 
+                                <span>Category Management</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/admin/subcategory/management.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/subcategory-logo.png" alt="" style="width:35px; heigth:35px;" /> 
+                                <span>SubCategory Management</span>
+                               
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="#{request.contextPath}/PictureNetwork-jsf/admin/gallery.jsf">
+                                <i class="fa fa-laptop"></i>
+                                <span>Gallery</span>
+                               
+                            </a>
+                           
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-edit"></i> <span>Add Picture</span>
+                               
+                            </a>
+                          
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/admin/comment/management.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/comments-logo2.png" alt="" style="width:45px; heigth:45px;margin-left:-10px;" /> <span >Comments management</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/admin/model/management.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/model-Logo.png" alt="" style="width:35px; heigth:35px;" /> <span >Models management</span>
+                               
+                            </a>
+                        </li>
+                        <!-- 
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-table"></i> <span>Tables</span>
+                               
+                            </a>
+                           
+                        </li>
+                        -->
+                        <li>
+                            <a href="">
+                                <i class="fa fa-calendar"></i> <span>Events</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/admin/event/add.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/add-event-logo.png" alt="" style="width:45px; heigth:45px;margin-left:-10px;" /> <span >Add Event</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-calendar"></i> <span>Workshops</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#{request.contextPath}/admin/workshop/add.jsf">
+                                <img src="#{request.contextPath}/resources/css/images/add-event-logo.png" alt="" style="width:45px; heigth:45px;margin-left:-10px;" /> <span >Add Workshop</span>
+                               
+                            </a>
+                        </li>
+                        <li>
+                            <a href="pages/mailbox.html">
+                                <i class="fa fa-envelope"></i> <span>My Profile</span>
+                               
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="">
+                                <i class="fa fa-laptop"></i>
+                                <span>WorkShop</span>
+                               
+                            </a>
+                           
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-folder"></i> <span>BadWord Managment</span>
+                               
+                            </a>
+                           
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+</ui:composition>

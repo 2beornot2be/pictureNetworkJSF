@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	xmlns:m="http://code.google.com/p/gmaps4jsf/"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Adding a Workshop</ui:define>
+
+	<ui:define name="content-header">Add a Workshop</ui:define>
+	<ui:define name="content">  
+		
+		
+		
+		
+		<h:form id="formworkshop">
+				
+			<h:panelGrid columns="3" style="margin:auto;border:none !important;">
+				<h:outputLabel for="topic" id="ltopic">topic : </h:outputLabel>
+				<h:inputText style="width:250px;" id="topic" size="100" value="#{gestionWorkshopBean.workshop.topic}" required="true" requiredMessage="topic is required!" >
+					<p:ajax workshop="blur" update="ltopic,topic,mtopic"></p:ajax>
+				</h:inputText>
+				<h:message for="topic" id="mtopic" style="color:red;font-weight:bold;"></h:message>
+				
+				<h:outputLabel for="description" id="ldescription">description : </h:outputLabel>
+				<h:inputTextarea style="width:250px;height:200px;margin-top:30px;margin-bottom:30px;" id="description" size="100" value="#{gestionWorkshopBean.workshop.description}" required="true" requiredMessage="description is required!" >
+					<p:ajax workshop="blur" update="ldescription,description,mdescription"></p:ajax>
+				</h:inputTextarea>
+				<h:message for="description" id="mdescription" style="color:red;font-weight:bold;"></h:message>
+				
+				<h:outputLabel for="workshopDate" id="lworkshopDate">workshop Date : </h:outputLabel>
+				<p:calendar id="workshopDate"  value="#{gestionWorkshopBean.workshop.workshopDate}" mode="inline" mindate="#{gestionWorkshopBean.today}" ></p:calendar>
+					
+				
+				<h:message for="workshopDate" id="mworkshopDate" style="color:red;font-weight:bold;"></h:message>
+				<h:panelGrid columns="1"  style="margin:auto;border:none !important" >
+					<h:outputLabel for="address" id="laddress">workshop Address : </h:outputLabel>
+					<p:inputText id="address" value="#{gestionWorkshopBean.workshop.address}" required="true" requiredMessage="the adress of the workshop is required!"  >
+						<p:ajax workshop="keyup" update="workshopmap,maddress,laddress"></p:ajax>
+					</p:inputText>
+					<h:message for="address" id="maddress" style="color:red;font-weight:bold;"></h:message>
+					<h:panelGrid columns="1"  style="margin:auto;border:none !important;" id="workshopmap" >
+						<m:map address="#{gestionWorkshopBean.workshop.address}" partiallyTriggered="true" zoom="15">
+					         <m:marker address="#{gestionWorkshopBean.workshop.address}"/>
+					         <m:htmlInformationWindow  htmlText="#{gestionWorkshopBean.workshop.address}" />
+					  	</m:map>
+				  	</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:message for=""></h:message>
+				<h:commandButton    styleClass="btn btn-large btn-primary" value="Add Workshop" action="#{gestionWorkshopBean.add}"  >
+					
+				</h:commandButton>
+			</h:panelGrid>
+			
+		</h:form>
+		<hr/>
+	</ui:define>
+</ui:composition>

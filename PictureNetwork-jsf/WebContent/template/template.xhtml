@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+<h:head>
+        <meta charset="UTF-8" />
+    
+        <title>
+        <ui:insert name="pageTitle"></ui:insert>
+        </title>
+        <h:outputScript name="jquery/jquery.js" library="primefaces" target="head" ></h:outputScript>
+        <!--  google maps integration starts here -->
+        	<script type="text/javascript"
+		      src="https://maps.googleapis.com/maps/api/js?sensor=true">
+		    </script> 
+        <!-- end google maps script -->
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport' />
+        
+               <!-- bootstrap 3.0.2 -->
+        <h:outputStylesheet library="" name="css/bootstrap.min.css"></h:outputStylesheet>
+      
+        <!-- font Awesome -->
+        <h:outputStylesheet library="" name="css/font-awesome.min.css"></h:outputStylesheet>
+       
+        <!-- Ionicons -->
+        <h:outputStylesheet library="" name="css/ionicons.min.css"></h:outputStylesheet>
+        
+        <!-- Morris chart -->
+        <h:outputStylesheet library="" name="css/morris/morris.css"></h:outputStylesheet>
+        
+        <!-- jvectormap -->
+        <h:outputStylesheet library="" name="css/jvectormap/jquery-jvectormap-1.2.2.css"></h:outputStylesheet>
+        
+       
+        <!-- fullCalendar -->
+        <h:outputStylesheet library="" name="css/fullcalendar/fullcalendar.css"></h:outputStylesheet>
+        
+        
+        <!-- Daterange picker -->
+        <h:outputStylesheet library="" name="css/daterangepicker/daterangepicker-bs3.css"></h:outputStylesheet>
+        
+       
+        <!-- bootstrap wysihtml5 - text editor -->
+        <h:outputStylesheet library="" name="css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"></h:outputStylesheet>
+        
+    
+        <!-- Theme style -->
+        <h:outputStylesheet library="" name="css/AdminLTE.css"></h:outputStylesheet>
+        
+        
+</h:head>
+    <h:body class="skin-blue">
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <ui:include src="/template/header.xhtml" />
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <ui:include src="/template/menu.xhtml" />
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+           <aside class="right-side">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                <ui:insert name="content-header"></ui:insert>
+                   
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                <ui:insert name="content"></ui:insert>
+                   
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+        
+
+        <!-- add new calendar event modal -->
+
+
+        
+
+       
+    </h:body>
+
+</html>

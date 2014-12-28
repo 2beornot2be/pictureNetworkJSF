@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Sub Category Management</ui:define>
+
+	<ui:define name="content-header">List of picture network sub categories and management</ui:define>
+	<ui:define name="content">  
+		<p:growl id="growl"></p:growl>
+		<h:form id="formsubcategorys">
+			
+			<!-- search picture so we can manage its comments -->
+			<p:dataTable value="#{gestionSubCategoryBean.subcategories}" var="cat" widgetVar="dataSubCat"
+				paginator="true" rows="5" filteredValue="#{gestionSubCategoryBean.filteredSubCategories}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for sub categories to manage them</h3>
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataSubCat.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{cat.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<h:outputText value="#{cat.id}" />
+				</p:column>
+				<p:column filterBy="#{cat.name}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Name" />
+					</f:facet>
+					<h:outputText value="#{cat.name}" />
+				</p:column>
+				<p:column filterBy="#{cat.parentCategory.name}" filterOptions="#{gestionSubCategoryBean.categories}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Parent category" />
+					</f:facet>
+					<h:outputText value="#{cat.parentCategory.name}" />
+				</p:column>
+				<p:growl id="growl1"></p:growl>
+				<p:column headerText="Actions">
+					<p:commandButton value="Delete" update="@all" onclick="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" oncomplete="PF('statusDialog').hide();"  action="#{gestionSubCategoryBean.delete}">
+						<f:setPropertyActionListener value="#{cat}" target="#{gestionSubCategoryBean.subcategory}"></f:setPropertyActionListener>
+						<p:confirm  header="Confirmation" message="Are you sure you want to delete this sub category?" ></p:confirm>
+						<p:confirmDialog   widgetVar="statusDialog" closable="true" closeOnEscape="true" global="true" height="50" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="No"  styleClass="ui-confirmdialog-No" icon="ui-icon-close" onclick="PF('statusDialog').hide();" update="@all" immediate="true" action="management"   />
+					    </p:confirmDialog>
+					</p:commandButton>
+					
+					<p:commandButton value="Edit" update=":formsubcategory" >
+						<f:setPropertyActionListener value="#{cat}" target="#{gestionSubCategoryBean.subcategory}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="true" target="#{gestionSubCategoryBean.showSubCategoryForm}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="false" target="#{gestionSubCategoryBean.creating}"></f:setPropertyActionListener>
+				<f:setPropertyActionListener value="true" target="#{gestionSubCategoryBean.updating}"></f:setPropertyActionListener>
+					</p:commandButton>					
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Add a new Sub Category" update=":formsubcategory" action="#{gestionSubCategoryBean.initialiserForm}" >
+				<f:setPropertyActionListener value="true" target="#{gestionSubCategoryBean.showSubCategoryForm}"></f:setPropertyActionListener>
+				<f:setPropertyActionListener value="true" target="#{gestionSubCategoryBean.creating}"></f:setPropertyActionListener>
+				<f:setPropertyActionListener value="false" target="#{gestionSubCategoryBean.updating}"></f:setPropertyActionListener>
+			</p:commandButton>	
+		</h:form>
+		<hr/>
+		
+		
+		<h:form id="formsubcategory">
+			
+			<h:panelGrid columns="3"   rendered="#{gestionSubCategoryBean.showSubCategoryForm}" style="margin:auto;border:none !important;">
+				
+				<h:outputLabel for="myParentCategory" id="lmyParentCategory">Parent Category : </h:outputLabel>
+				<h:selectOneMenu   id="myParentCategory" value="#{gestionSubCategoryBean.parentCategoryName}"    >
+						
+		    			<f:selectItems  value="#{gestionSubCategoryBean.categoriesList}" var="xCat" itemValue="#{xCat.name}" itemLabel="#{xCat.name}"></f:selectItems>
+		    			
+	    		</h:selectOneMenu>
+				<p:message for="myParentCategory" id="mmyParentCategory"></p:message>
+				
+				<h:outputLabel rendered="#{gestionSubCategoryBean.creating}" for="mySubCategory1" id="lmySubCategory1">Sub Category Name : </h:outputLabel>
+				<h:inputText rendered="#{gestionSubCategoryBean.creating}" id="mySubCategory1" size="100" value="#{gestionSubCategoryBean.subcategory.name}" validator="subcategoryValidator" >
+					<p:ajax event="blur" update="lmySubCategory1,mySubCategory1,mmySubCategory1"></p:ajax>
+				</h:inputText>
+				<h:message rendered="#{gestionSubCategoryBean.creating}" for="mySubCategory1" id="mmySubCategory1" style="color:red;font-weight:bold;"></h:message>
+				
+				
+				<h:outputLabel rendered="#{gestionSubCategoryBean.updating}" for="mySubCategory" id="lmySubCategory">Sub Category Name : </h:outputLabel>
+				<h:inputText rendered="#{gestionSubCategoryBean.updating}" id="mySubCategory" size="100" value="#{gestionSubCategoryBean.subcategory.name}" required="true"
+				requiredMessage="sub category name is required!"
+				 >
+					<p:ajax event="blur" update="lmySubCategory,mySubCategory,mmySubCategory"></p:ajax>
+				</h:inputText>
+				<h:message rendered="#{gestionSubCategoryBean.updating}" for="mySubCategory" id="mmySubCategory" style="color:red;font-weight:bold;"></h:message>
+				
+				
+				
+				
+				<p:commandButton update=":formsubcategorys,:formsubcategory"   styleClass="btn btn-large btn-primary" value="OK" action="#{gestionSubCategoryBean.doAddOrUpdate}"></p:commandButton>
+				<p:commandButton update=":formsubcategorys,:formsubcategory" immediate="true"  styleClass="btn btn-large btn-primary" value="Cancel" action ="management" >
+					
+				</p:commandButton>
+			</h:panelGrid>
+		</h:form>
+		<hr/>
+	</ui:define>
+</ui:composition>

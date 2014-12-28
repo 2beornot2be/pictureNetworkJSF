@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Comments Management</ui:define>
+
+	<ui:define name="content-header">List of picture network team comments and management</ui:define>
+	<ui:define name="content">  
+		
+		<h:form id="formPics">
+			
+			<!-- search picture so we can manage its comments -->
+			<p:dataTable value="#{gestionCommentsBean.pictures}" var="pic" widgetVar="dataPic"
+				paginator="true" rows="3" filteredValue="#{gestionCommentsBean.filteredPictures}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="3,10,15">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for picture to manage its comments</h3>
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataPic.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{pic.pictureOwner.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="# of owner" />
+					</f:facet>
+					<h:outputText value="#{pic.pictureOwner.id}" />
+				</p:column>
+				<p:column filterBy="#{pic.pictureOwner.state}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="State" />
+					</f:facet>
+					<h:outputText rendered="#{pic.pictureOwner.state != 'MODEL'}" value="#{pic.pictureOwner.state}" />
+					<h:outputText style="color:blue;font-wight:bold;" rendered="#{pic.pictureOwner.state == 'MODEL'}" value="#{pic.pictureOwner.state}" />
+				</p:column>
+				<p:column filterBy="#{pic.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<h:outputText value="#{pic.id}" />
+				</p:column>
+				<p:column filterBy="#{pic.pictureOwner.firstName}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Owner first name" />
+					</f:facet>
+					<h:outputText value="#{pic.pictureOwner.firstName}" />
+				</p:column>
+				<p:column filterBy="#{pic.pictureOwner.lastName}"  >
+					<f:facet name="header">
+						<h:outputText value="Owner Last Name" />
+					</f:facet>
+					<h:outputText value="#{pic.pictureOwner.lastName}" />
+				</p:column>
+				<p:column filterBy="#{pic.name}">
+					<f:facet name="header">
+						<h:outputText value="picture" />
+					</f:facet>
+					<p:graphicImage value="#{pic.url}"  style="width:400px;height:300px;" />
+					<br/><center><strong><h:outputText value="#{pic.name}" /></strong></center>
+				</p:column>
+				<p:column filterBy="#{pic.description}">
+					<f:facet name="header">
+						<h:outputText value="Description" />
+					</f:facet>
+					<h:outputText value="#{pic.description}" />
+				</p:column>
+				<p:column filterBy="#{pic.section}">
+					<f:facet name="header">
+						<h:outputText value="Section" />
+					</f:facet>
+					<h:outputText value="#{pic.section}" />
+				</p:column>
+				
+				<p:column filterBy="#{pic.dateAdded}">
+					<f:facet name="header">
+						<h:outputText value="date Created" />
+					</f:facet>
+					<h:outputText value="#{pic.dateAdded}" />
+				</p:column>
+				
+				
+				<p:column>
+
+
+					<p:commandButton value="Manage comments" action="#{gestionCommentsBean.initialiserListeCommentairesDeImage}"  icon="ui-icon-pencil" update=":formCommentaires">
+						<f:setPropertyActionListener value="#{pic}" target="#{gestionCommentsBean.picture}"></f:setPropertyActionListener>		
+						<f:setPropertyActionListener value="true" target="#{gestionCommentsBean.showListComments}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+		</h:form>
+		<hr/>
+		
+		<h:form id="formCommentaires" style="margin-top:30px;">
+		
+			<p:dataTable rendered="#{gestionCommentsBean.showListComments}" value="#{gestionCommentsBean.comments}" var="com" widgetVar="dataCom"
+				paginator="true" rows="10" filteredValue="#{gestionCommentsBean.filteredComments}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,15,25">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for <strong style="color:red;">#{gestionCommentsBean.picture.name}</strong>'s comments and manage them </h3>
+					<br/>
+					<p:graphicImage value="#{gestionCommentsBean.picture.url}"  style="width:400px;height:400px;" />
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataCom.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{com.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+				<h:outputText value="#{com.id}" />
+				</p:column>
+				<p:column filterBy="#{com.credit}" filterMatchMode="contains" filterOptions="#{gestionCommentsBean.credits}" >
+					<f:facet name="header">
+						<h:outputText value="Credit"></h:outputText>
+					</f:facet>
+					<h:outputText value="#{com.credit}"></h:outputText>
+					
+				</p:column>
+				<p:column filterBy="#{com.sender.firstName}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="first name" />
+					</f:facet>
+					<h:outputText value="#{com.sender.firstName}" />
+				</p:column>
+				<p:column filterBy="#{com.sender.lastName}"  >
+					<f:facet name="header">
+						<h:outputText value="Last Name" />
+					</f:facet>
+					<h:outputText value="#{com.sender.lastName}" />
+				</p:column>
+				<p:column filterBy="#{com.content}" >
+					<f:facet name="header">
+						<h:outputText value="comment" />
+					</f:facet>
+					<h:outputText value="#{com.content}" style="color:red;" rendered="#{com.sender.credit=='PICTURE_NETWORK_TEAM'}" />
+					<h:outputText value="#{com.content}"  rendered="#{com.sender.credit!='PICTURE_NETWORK_TEAM'}" />
+				</p:column>
+				<p:column filterBy="#{com.dateCreated}">
+					<f:facet name="header">
+						<h:outputText value="date Created" />
+					</f:facet>
+					<h:outputText value="#{com.dateCreated}" />
+				</p:column>
+				<p:column filterBy="#{com.dateModified}">
+					<f:facet name="header">
+						<h:outputText value="date Modified" />
+					</f:facet>
+					<h:outputText value="#{com.dateModified}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Actions" />
+					</f:facet>
+					
+					<p:commandButton value="Delete" update="@all" onclick="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"  action="#{gestionCommentsBean.delete}">
+						<f:setPropertyActionListener value="#{com}" target="#{gestionCommentsBean.commentaire}"></f:setPropertyActionListener>
+						<p:confirm header="Confirmation" message="Are you sure you want to delete this comment?" ></p:confirm>
+						<p:confirmDialog  widgetVar="statusDialog" global="true"  showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="No"  styleClass="ui-confirmdialog-No" icon="ui-icon-close" onclick="PF('statusDialog').hide();" update="@all" immediate="true" action="management"   />
+					    </p:confirmDialog>
+					</p:commandButton>
+					
+					<p:commandButton value="Edit" update=":formCommentaire" rendered="#{com.credit == 'PICTURE_NETWORK_TEAM' and com.sender.id == gestionCommentsBean.admin.id}">
+						<f:setPropertyActionListener value="#{com}" target="#{gestionCommentsBean.commentaire}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="true" target="#{gestionCommentsBean.showCommentForm}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				
+			</p:dataTable>
+			<p:commandButton rendered="#{gestionCommentsBean.showListComments}" update=":formCommentaire"  value="Add a Comment"  actionLi="#{gestionCommentsBean.initialiseAddForm}">
+						<f:setPropertyActionListener value="true" target="#{gestionCommentsBean.showCommentForm}"></f:setPropertyActionListener>
+			</p:commandButton>
+		</h:form>
+		
+		<h:form id="formCommentaire">
+			
+			<h:panelGrid columns="3"  rendered="#{gestionCommentsBean.showCommentForm}" style="margin:auto;border:none !important;">
+				<h:outputLabel for="myComment" id="lmyComment">Comment : </h:outputLabel>
+				<h:inputTextarea id="myComment" size="100" value="#{gestionCommentsBean.commentaire.content}" required="true" requiredMessage="you cannot send an empty message!"></h:inputTextarea>
+				<h:message for="myComment" style="color:red;font-weight:bold;"></h:message>
+				<p:commandButton update=":formCommentaires,:formCommentaire"   styleClass="btn btn-large btn-primary" value="Send" action="#{gestionCommentsBean.doAddOrUpdate}"></p:commandButton>
+				<p:commandButton update=":formCommentaires,:formCommentaire"  immediate="true"  styleClass="btn btn-large btn-primary" value="Cancel" action ="management" />
+			</h:panelGrid>
+		</h:form>
+		<hr/>
+	</ui:define>
+</ui:composition>

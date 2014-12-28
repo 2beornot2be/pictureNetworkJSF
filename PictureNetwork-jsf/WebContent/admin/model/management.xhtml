@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Models Management</ui:define>
+
+	<ui:define name="content-header"><h1>List of models and management of models and its Pictures</h1></ui:define>
+	<ui:define name="content">  
+		
+		<h:form id="formModels">
+			
+			<!-- search Models so we can manage its pictures -->
+			<p:dataTable value="#{gestionModelsBean.models}" var="model" widgetVar="dataMod"
+				paginator="true" rows="5" filteredValue="#{gestionModelsBean.filteredModels}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for a model to manage it and manage its pictures</h3>
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataMod.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{model.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<h:outputText value="#{model.id}" />
+				</p:column>
+				<p:column filterBy="#{model.firstName}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="first name" />
+					</f:facet>
+					<h:outputText value="#{model.firstName}" />
+				</p:column>
+				<p:column filterBy="#{model.lastName}"  >
+					<f:facet name="header">
+						<h:outputText value="Last Name" />
+					</f:facet>
+					<h:outputText value="#{model.lastName}" />
+				</p:column>
+				<p:column filterBy="#{model.address}"  >
+					<f:facet name="header">
+						<h:outputText value="Address" />
+					</f:facet>
+					<h:outputText value="#{model.address}" />
+				</p:column>
+				<p:column filterBy="#{model.tel}"  >
+					<f:facet name="header">
+						<h:outputText value="Telephone" />
+					</f:facet>
+					<h:outputText value="#{model.tel}" />
+				</p:column>
+				<p:column filterBy="#{model.state}"  >
+					<f:facet name="header">
+						<h:outputText value="State" />
+					</f:facet>
+					<h:outputText value="#{model.state}" />
+				</p:column>
+				<p:column filterBy="#{model.credit}"  >
+					<f:facet name="header">
+						<h:outputText value="Credit" />
+					</f:facet>
+					<h:outputText value="#{model.credit}" />
+				</p:column>
+				<p:column filterBy="#{model.modelState_Activation}" filterOptions="#{gestionModelsBean.modelStateActivations}"  >
+					<f:facet name="header">
+						<h:outputText value="Activation" />
+					</f:facet>
+					<h:outputText value="#{model.modelState_Activation}" />
+				</p:column>
+				<p:column headerText="Actions">
+					<p:commandButton update="@form" value="Desactivate" rendered="#{model.modelState_Activation == 'ACTIVATED'}"
+					action="#{gestionModelsBean.desactivateModel}" >
+						<f:setPropertyActionListener value="#{model}" target="#{gestionModelsBean.model}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton update="@form" value="Activate" rendered="#{model.modelState_Activation != 'ACTIVATED'}"
+					action="#{gestionModelsBean.activateModel}" >
+						<f:setPropertyActionListener value="#{model}" target="#{gestionModelsBean.model}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton update=":formPics" value="Manage Pictures" action="#{gestionModelsBean.initialiserListeImagesDeModel}"  icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{model}" target="#{gestionModelsBean.model}"></f:setPropertyActionListener>		
+						<f:setPropertyActionListener value="true" target="#{gestionModelsBean.showListPictures}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+		</h:form>
+		<hr/>
+		<h:form id="formPics">
+		<!-- search picture so we can manage its comments -->
+			<p:dataTable rendered="#{gestionModelsBean.showListPictures}" value="#{gestionModelsBean.pictures}" var="pic" widgetVar="dataPic"
+				paginator="true" rows="3" filteredValue="#{gestionModelsBean.filteredPictures}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="3,10,15">
+					<f:facet name="header">
+					<h3 style="color:blue;font-weight:bold;">Search for <strong style="color:red;">#{gestionModelsBean.model}</strong>'s pictures to activate or desactivate them</h3>
+					<p:outputPanel>
+							<h:outputText value="Search:" />
+							<p:inputText id="globalFilter"
+								onkeyup="dataPic.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+				<p:column filterBy="#{pic.id}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<h:outputText value="#{pic.id}" />
+				</p:column>
+				<p:column filterBy="#{pic.pictureOwner.firstName}" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Owner first name" />
+					</f:facet>
+					<h:outputText value="#{pic.pictureOwner.firstName}" />
+				</p:column>
+				<p:column filterBy="#{pic.pictureOwner.lastName}"  >
+					<f:facet name="header">
+						<h:outputText value="Owner Last Name" />
+					</f:facet>
+					<h:outputText value="#{pic.pictureOwner.lastName}" />
+				</p:column>
+				<p:column filterBy="#{pic.name}">
+					<f:facet name="header">
+						<h:outputText value="picture" />
+					</f:facet>
+					<p:graphicImage value="#{pic.url}"  style="width:400px;height:300px;" />
+					<br/><center><strong><h:outputText value="#{pic.name}" /></strong></center>
+				</p:column>
+				<p:column filterBy="#{pic.description}">
+					<f:facet name="header">
+						<h:outputText value="Description" />
+					</f:facet>
+					<h:outputText value="#{pic.description}" />
+				</p:column>
+				<p:column filterBy="#{pic.section}">
+					<f:facet name="header">
+						<h:outputText value="Section" />
+					</f:facet>
+					<h:outputText value="#{pic.section}" />
+				</p:column>
+				
+				<p:column filterBy="#{pic.dateAdded}">
+					<f:facet name="header">
+						<h:outputText value="date Created" />
+					</f:facet>
+					<h:outputText value="#{pic.dateAdded}" />
+				</p:column>
+				<p:column filterBy="#{pic.activation}" filterOptions="#{gestionModelsBean.modelStateActivations}"  >
+					<f:facet name="header">
+						<h:outputText value="Activation" />
+					</f:facet>
+					<h:outputText value="#{pic.activation}" />
+				</p:column>
+				
+				<p:column headerText="Actions">
+
+
+					<p:commandButton update="@form" value="Desactivate" rendered="#{pic.activation == 'ACTIVATED'}"
+					action="#{gestionModelsBean.desactivatePicture}" >
+						<f:setPropertyActionListener value="#{pic}" target="#{gestionModelsBean.picture}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton update="@form" value="Activate" rendered="#{pic.activation != 'ACTIVATED'}"
+					action="#{gestionModelsBean.activatePicture}" >
+						<f:setPropertyActionListener value="#{pic}" target="#{gestionModelsBean.picture}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+		</h:form>
+		
+		
+	</ui:define>
+</ui:composition>
