@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml"
+	xmlns:m="http://code.google.com/p/gmaps4jsf/"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="pageTitle">Adding an Badword</ui:define>
+
+	<ui:define name="content-header">Add an Badword</ui:define>
+	<ui:define name="content">  
+		
+		
+		
+		
+		<h:form id="formbadword">
+				
+			<h:panelGrid columns="3" style="margin:auto;border:none !important;">
+				
+				
+				<h:outputLabel for="description" id="ldescription">description : </h:outputLabel>
+				<h:inputTextarea style="width:250px;height:200px;margin-top:30px;margin-bottom:30px;" id="description" size="100" value="#{gestionBadwordBean.badWorld.description}" required="true" requiredMessage="description is required!" >
+					<p:ajax event="blur" update="ldescription,description,mdescription"></p:ajax>
+				</h:inputTextarea>
+				<h:message for="description" id="mdescription" style="color:red;font-weight:bold;"></h:message>
+				
+			
+				
+				<h:message for=""></h:message>
+				<h:commandButton    styleClass="btn btn-large btn-primary" value="Add Event" action="#{gestionBadwordBean.add}"  >
+					
+				</h:commandButton>
+			</h:panelGrid>
+			
+		</h:form>
+		<hr/>
+	</ui:define>
+</ui:composition>

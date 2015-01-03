@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+			
+			<p:panel id="details" header="Badword details" visible="#{badBean.formDisplayed}">
+			<h:form rendered="#{badBean.formDisplayed}" id="details_form">
+			
+			<h:panelGrid columns="2">
+			
+			    <h:outputText value="# : " style="FONT-SIZE: small; COLOR: #000000;"/>
+			    <p:inputText value="#{badBean.badword.id}" />
+			    
+			       <h:outputText value="Description : " style="FONT-SIZE: small; COLOR: #000000;"/>
+			    <p:inputText value="#{badBean.badword.description}" />
+			      	
+ 
+     <p:growl id="messages" showDetail="true" life="2000" />  
+   	<h:outputText value="" />
+  
+	 
+			<h:panelGrid columns="3">
+			<p:commandButton actionListener="#{badBean.doSaveOrUpdate()}" value="Save" style="FONT-SIZE: small; 
+			COLOR: #0000a0; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;" update=":master :details" 
+					oncomplete="userTabW.filter();"/> 
+			
+			<p:commandButton actionListener="#{badBean.doDelete()}" value="Delete" style="FONT-SIZE: small; 
+			COLOR: #0000a0; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;" update=":master :details" 
+					oncomplete="userTabW.filter();"/> 
+					
+<!-- 					<p:commandButton icon="ui-icon-circle-plus" actionListener="#{placeBean.doAddWish()}" value="ADD To My WishListe" /> -->
+			</h:panelGrid>
+			</h:panelGrid>
+			</h:form>
+			</p:panel>
+			
+</ui:composition>

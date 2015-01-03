@@ -3,13 +3,14 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-<h:head>
+    <h:head>
         <meta charset="UTF-8"/>
-        <title>Picture Network | Log in</title>
+        <title>Picture Network | Registration Page</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'/>
         <!-- bootstrap 3.0.2 -->
         <h:outputStylesheet library="" name="css/bootstrap.min.css"></h:outputStylesheet>
-        <!-- font Awesome -->
+        
+        
         <h:outputStylesheet library="" name="css/font-awesome.min.css"></h:outputStylesheet>
         
         <!-- Theme style -->
@@ -26,32 +27,32 @@
     <h:body class="bg-black">
 
         <div class="form-box" id="login-box">
-            <div class="header">Sign In</div>
-            <h:form action="http://localhost:2015/template_exemple/faces/template/index.xhtml" method="post">
+            <div class="header">Register New Membership</div>
+            <form action="../../index.html" method="post">
                 <div class="body bg-gray">
                     <div class="form-group">
-                       <!-- <input type="text" name="userid" class="form-control" placeholder="User ID"/> -->
-                        <h:inputText value="#{authenticationBean.admin.lastName}" styleClass="form-control" />
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="#{gestionAdminBean.admin.firstName}" />
                     </div>
                     <div class="form-group">
-                        <!-- <input type="password" name="password" class="form-control" placeholder="Password"/> -->
-                        <h:inputSecret value="#{authenticationBean.admin.password}" styleClass="form-control" />
-                    </div>          
+                        <input type="text" name="lastname" class="form-control" placeholder="Last Name" value="#{gestionAdminBean.admin.lastName}"/>
+                    </div>
                     <div class="form-group">
-                        <input type="checkbox" name="remember_me"/> Remember me
+                        <input type="password" name="password" class="form-control" placeholder="Password" value="#{gestionAdminBean.admin.password}"/>
+                    </div>
+                   <div class="form-group">
+                        <input type="text" name="telephone" class="form-control" placeholder="telephone" value="#{gestionAdminBean.admin.tel}"/>
                     </div>
                 </div>
-                <div class="footer">                                                               
-                    <!-- <button type="submit" class="btn bg-olive btn-block">Sign me in</button>   -->
-                    <h:commandButton value="Sign me in" action="#{authenticationBean.doLogin()}" styleClass="btn bg-olive btn-block" />
-                    <p><a href="#">I forgot my password</a></p>
-                    
-                    <a href="#{request.contextPath}/register.jsf" class="text-center">Register a new membership</a>
+                <div class="footer">                    
+
+                    <h:commandButton type="submit" class="btn bg-olive btn-block" action="#{gestionAdminBean.doAddOrUpdate()}">Sign me up</h:commandButton>
+
+                    <a href="#{request.contextPath}/login.jsf" class="text-center">I already have a membership</a>
                 </div>
-            </h:form>
+            </form>
 
             <div class="margin text-center">
-                <span>Sign in using social networks</span>
+                <span>Register using social networks</span>
                 <br/>
                 <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
                 <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
@@ -62,10 +63,6 @@
 
 
         <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <h:outputScript library="js" value="bootstrap.min.j"></h:outputScript>
-
+       
     </h:body>
 </html>
-      

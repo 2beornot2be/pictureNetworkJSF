@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui">
+    
+			<h:form id="master">
+	<p:commandButton icon="ui-icon-circle-plus" actionListener="#{eventBean.doNew()}" value="Add new Event" update=":details"/>
+			
+			<p:dataTable rendered="#{not empty eventBean.events}"
+			           value="#{eventBean.events}" 
+			           var="event" 
+			           rows="5"
+			           rowKey="#{event.id}"
+			           paginator="true"
+			           paginatorPosition="bottom"
+			           filteredValue="#{eventBean.fileteredEvent}"
+			           selectionMode="single"
+			           selection="#{eventBean.event}"
+			           widgetVar="userTabW">
+			           
+			     <f:facet name="header">
+			        <h:outputText value="Manage Event" />
+			     </f:facet>
+			     
+			      <p:ajax event="rowSelect" listener="#{eventBean.onRowSelect}" update=":details"/>
+			      
+			 		 	
+			 
+			  
+			  <p:column headerText="Desc" filterBy="#{event.topic}" filterMatchMode="contains">
+			     
+			   <h:outputText value="#{event.topic}" />
+			  </p:column>
+			  
+			  
+			  
+			   <p:column headerText="Description" filterBy="#{event.description}" filterMatchMode="contains">
+			    
+			   <h:outputText value="#{event.description}" />
+			  </p:column>
+			  
+			</p:dataTable>
+			
+			</h:form>
+			
+</ui:composition>

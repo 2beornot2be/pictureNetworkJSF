@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui">
+    
+			<h:form id="master">
+	<p:commandButton icon="ui-icon-circle-plus" actionListener="#{badBean.doNew()}" value="Add new badword" update=":details"/>
+			
+			<p:dataTable rendered="#{not empty badBean.badwords}"
+			           value="#{badBean.badwords}" 
+			           var="badword" 
+			           rows="5"
+			           rowKey="#{badword.id}"
+			           paginator="true"
+			           paginatorPosition="bottom"
+			           filteredValue="#{badBean.fileteredBadword}"
+			           selectionMode="single"
+			           selection="#{badBean.badword}"
+			           widgetVar="userTabW">
+			           
+			     <f:facet name="header">
+			        <h:outputText value="Manage Badword" />
+			     </f:facet>
+			     
+			      <p:ajax event="rowSelect" listener="#{badBean.onRowSelect}" update=":details"/>
+			  
+			  <p:column headerText="Desc" filterBy="#{badword.description}" filterMatchMode="contains">
+			     
+			   <h:outputText value="#{badword.description}" />
+			  </p:column>
+
+			</p:dataTable>
+			</h:form>			
+</ui:composition>

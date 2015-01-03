@@ -95,7 +95,11 @@ public class AuthenticationBean implements Serializable{
 		this.loggedIn = loggedIn;
 	}
 
-
+public String doModify(){
+	
+	adminBeanLocal.updateAdmin(admin);
+	return "/admin/index?faces-redirect=true";
+}
 
 	public List<Admin> getAdmins() {
 		return admins;

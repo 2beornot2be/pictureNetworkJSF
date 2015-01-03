@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"    
+      template="/template/template.xhtml"
+      xmlns:p="http://primefaces.org/ui">
+      
+      
+      <ui:define name="pageTitle">My Account</ui:define>
+      <ui:define name="content-header"> <h3>User Management</h3> </ui:define>
+
+      <ui:define name="content">
+      
+      
+      <h:form id="form" >  
+      
+   
+          
+        <h:panelGrid id="grid" columns="2" style="margin-bottom:10px">  
+            <f:facet name="header">  
+                <p:messages />  
+            </f:facet>  
+        
+       		<h:outputLabel for="lastName" value="login:" />  
+            <p:inputText id="lastName" value="#{authenticationBean.admin.lastName}"  required="true"/>
+       
+            <h:outputLabel for="firstName" value="nom:" />  
+            <p:inputText id="firstName" value="#{authenticationBean.admin.firstName}"  required="true"/>
+           
+                     
+            <h:outputLabel for="" value="Adress:" />  
+            <p:inputText id="Adress" value="#{authenticationBean.admin.address}" required="true" />  
+           
+       
+            
+            <h:outputLabel for="state" value="Phone number:" />  
+            <p:inputText id="state" value="#{authenticationBean.admin.state}"  required="true"/> 
+            
+            <h:outputLabel for="pwd1" value="New password:" />  
+            <p:password id="pwd1"  match="pwd2" label="Password 1" feedback="true"  required="true"/>  
+  
+            <h:outputLabel for="pwd2" value="Comfirm new password:" />  
+            <p:password id="pwd2" value="#{authenticationBean.admin.password}" label="Password 2"  required="true"/>  
+             
+             <br/><br/><br/><br/><br/><br/>
+             
+              <p:commandButton id="saveButton" action="#{authenticationBean.doModify()}" update="@form" value="Save" />  
+             
+        </h:panelGrid>  
+        
+        
+          
+
+      
+   
+  
+</h:form>  
+
+
+      
+      
+   
+      
+      </ui:define>
+</ui:composition>
